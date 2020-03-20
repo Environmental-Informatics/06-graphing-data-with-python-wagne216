@@ -1,0 +1,214 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Mar 15 03:57:35 2020
+
+Tutorials for NumPy, part of ass't 6
+
+@author: wagne216- Danielle W.
+"""
+""" Example of why it's good to initialize sizes
+
+# c starts as an empty set
+c = []
+# goes through each index in a
+for i in range(len(a)): 
+    # an equal size array of a and b will be multiplied
+    c.append(a[i]*b[i])
+   
+# the same result can come from starting via:
+# 1D data
+for (i = 0; i < rows; i++): {
+  c[i] = a[i]*b[i];
+}
+ 
+# 2D data:
+for (i = 0; i < rows; i++): {
+  for (j = 0; j < columns; j++): {
+    c[i][j] = a[i][j]*b[i][j];
+  }
+}
+
+# these in C do the same as:
+c = a * b
+# beacuse NumPy "vectorizes" and "broadcats"
+
+"""
+
+# EG
+import numpy as np # makes it shorter to call function
+a = np.arange(15).reshape(3,5) # 3 rows of 5 in range from 0 to 14
+print('var:',a)
+print('shape:',a.shape)
+print('ndim:',a.ndim)
+print('dtype.name:',a.dtype.name)
+print('size:',a.size)
+print('a type:',a)
+
+b=np.array([6,7,8])
+print('b:',b)
+print('b type:',type(b))
+
+# create arrays:
+# via regular python list:
+c = np.array([2, 3, 4])
+# notice how the numbers are entered as a list (with [] brackets)
+print('c:',c) # condense arguments to print, easily! 
+print('c type:' ,c.dtype)
+# via tuple:
+d = np.array([1.2, 3.5, 5.1])
+print('d:',d)
+print('d type:',d.dtype)
+
+# combine multiple arrays:
+e =np.array([b,c,d])
+print('e:',e)
+
+# create zeros array of certain size if elements unknown
+f = np.zeros( (3,4) )
+print('f:',f)
+g = np.ones( (3,4) )
+print('g:',g)
+h = np.empty( (3,4) )
+print('h:',h)
+
+# arange: create sequence from x to n counting by i:
+j = np.arange( 10, 30, 5)
+print('j:',j)
+# linspace: create sequence from x to n consisting of i elements:
+k = np.linspace(0,2,9)
+print('k:',k)
+
+# math applies elementwise without specifying
+# EG:
+a = np.array( [20,30,40,50] )
+b =  b = np.arange( 4 )
+c = a - b
+print('c:',c)
+
+# mult:
+# elementwise: 
+C = a * b
+print('C:', C)
+# matrix product:
+D = a @ b # same as D = a.dot(b)
+print('D:', D)
+
+# modify existing array:
+print('a:', a) 
+a *=3 # mult each element by 3
+print('a:', a) 
+
+
+
+# unary operations - compute within a matrix EG's:
+print('sum of a:',a.sum())
+print('min of a:',a.min())
+print('max of a:',a.max())
+
+ # and you can specify the axis for computation:
+print('e:',e)
+print('sum of each column in e:',e.sum(axis=0))
+print('sum of each row in e:',e.sum(axis=1))
+print('e cumsum along each row:',e.cumsum(axis=1))
+
+#%%
+# index, slice, iterate arrays:
+m = np.arange(10)**3
+print('m:',m)
+print('m[2]:', m[2])
+print('m[2:5]:',m[2:5]) 
+# equivalent to m[0:6:2] = -1000; from start to position 6, 
+# exclusive, set every 2nd element to -1000:
+print('m[:6:2]:',m[:6:2])
+
+#%% multi-d arrays: 
+def f(x,y):
+    return 10*x+y
+n = np.fromfunction(f,(5,4),dtype = int)
+print('n:',n)
+
+print('n[2,3]:',n[2,3])
+print('n[0:5, 1] :',n[0:5, 1] ) # within 2nd column in n, look at 0 to 5th values
+print('n[1:3, :]:',n[1:3, : ] ) # 2nd and third (because 1 to 3, exclusive)
+print('n[-1] (last row):',n[-1]) # column not specific, thus print all
+
+# iterating: 
+print('iterating:')
+for row in n: 
+    print(row) # iterates wrt first axis (rows)
+    print('iterating over each element:')
+for element in n.flat: 
+    print(element) # iterates wrt first axis (rows)
+
+
+#%%
+# stacking: 
+p = np.floor((10*np.random.random((2,2))))
+print('p:',p)
+q = np.column_stack((p,p))
+print('stack p:',q)
+print('stack vert:',np.vstack((p,p)))
+print('stack horz:',np.hstack((p,p)))
+print('stack along 1 row:',np.r_[1:4,0,4])
+
+#%%
+# fancy indexing: 
+r = np.arange(12)**2
+i = np.array([ 1,1,3,8,5 ] ) # will use these as indices
+print('r:',r)
+print('i:',i)
+print('r[i]:',r[i])
+# EG2
+palette = np.array( [ [0,0,0],                # black
+  [255,0,0],              # red
+  [0,255,0],              # green
+  [0,0,255],              # blue
+  [255,255,255] ] )       # white
+
+image = np.array( [ [ 0, 1, 2, 0 ],           # each value corresponds to a color in the palette
+  [0, 3, 4, 0 ]  ] )
+print('palette:',palette)
+print('image:',image)
+print('pallette[image]:',palette[image])
+
+# %%
+# index for several dimensions:
+s = np.arange(12).reshape(3,4)
+i = np.array( [ [0,1], # 1st D
+               [1,2] ] )
+j = np.array([ [2,1] , # 2nd D
+               [3,3] ] )
+# size i must equal size j
+print('s:',s)
+print('s[i,j]:',s[i,j])
+
+# %%
+# linear algebra
+t = np.array([[1.0,2.0], [3.0,4.0]])
+print('t:',t)
+print('t.transpose:',t.transpose())
+
+# %%
+# histograms:
+import matplotlib.pyplot as plt
+mu, sigma = 2, 0.5
+v = np.random.normal(mu,sigma,10000)
+print('v:',v)
+plt.hist(v, bins=50, density=1) # using matplotlib
+plt.show()
+(n, bins) = np.histogram(v, bins=50, density=True) # same thing but with numpy
+plt.plot(.5*(bins[1:]+bins[:-1]), n)
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
