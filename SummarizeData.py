@@ -18,15 +18,17 @@ import sys as s # to get command line arg
 
 # see if the arguments are working:
 print('Working with file named ',s.argv[1]+'.txt')
+
 # 1.) OPEN
 # come back to later: add command-line cmd to ask user input file_title
 # 1 header line # one var per column # name col's based on headers
-#file_title=('Tippecanoe_River_at_Ora.Annual_Metrics')
-file_title = s.argv[1]
+#file_title=('Tippecanoe_River_at_Ora.Annual_Metrics') # test with known filename
+file_title = s.argv[1] # accepts argument in command line for title 
 in_file = file_title + '.txt'
 yr,avg,mx,mn,sdev,tqmean,RB = \
  n.genfromtxt(in_file, \
  unpack=True, skip_header=1) 
+ 
 #%% 2.) PLOT
 # Create a new figure of size 8x6 points, using 100 dots per inch
 m.figure(figsize=(9,15), dpi=50) # both of these affects size, quality
